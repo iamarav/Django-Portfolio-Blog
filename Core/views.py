@@ -12,3 +12,7 @@ def About(request):
 def ContactPage(request):
     return (render( request, 'template-contact.html', {'variable': 'value'}))
     # this renders the html page from template folder to frontent
+
+def LoginPage(request):
+    return (render( request, 'accounts/template-login.html'))
+    #to make a login page

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils import timezone
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -107,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -130,3 +131,15 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'media'),
 )
+
+
+''' BLOG SETTINGS ONLY '''
+BLOG_INFO = {
+    'BLOG_NAME' : 'My Blog', #enter the blog name
+    'BLOG_DESCRIPTION' : 'This is awesome!',
+}
+
+FOOTER_COPYRIGHT_TEXT = "&copy 2020"
+
+
+############## DEBUG #################
