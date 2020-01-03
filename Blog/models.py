@@ -28,4 +28,4 @@ class Comment(models.Model):
     # post_id = models.ForeignKey(Posts.id)
 
     def __str__(self):
-        return self.name
+        return str(self.name) + " on Post: \"" + str(self.post_id) + "\" at " + str(self.date) +" "+ str (self.time)
