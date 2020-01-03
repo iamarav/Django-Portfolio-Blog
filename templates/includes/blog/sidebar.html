@@ -1,0 +1,37 @@
+
+        <!-- Search Widget -->
+        <div class="card my-4">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                  <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Categories Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">All Categories</h5>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-12">
+                    {% for temp in categories %}
+                      <span style="background-color: #ddd; padding: 3.5%; border-radius: 20px;">{{ temp.category }}</span>
+                    {% endfor %}
+                </div>
+                
+              </div>
+            </div>
+          </div>
+  
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Other Links</h5>
+            <div class="card-body">
+              <a href="">Login</a>
+            </div>
+          </div>
+  
