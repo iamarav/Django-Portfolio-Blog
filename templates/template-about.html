@@ -1,2 +1,76 @@
-<h1>Hi</h1>
-<p>This is about page.</p>
+<!-- Contact Page -->
+<link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" type="text/css" href="{{ static_url }}css/about-page.css" />
+<script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+<script src="{{ static_url }}vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+    {% include 'includes/core/header.html' %}
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">John Smith</h1>
+        <p class="lead text-muted">This is an example text. This is for intro of the developer/artist or any person mentioned above.</p>
+        <p>
+          <a href="{% url 'contact_page' %}" class="btn btn-primary my-2">Contact</a>
+          <a href="{% url 'blog_home' %}" class="btn btn-secondary my-2">Blog</a>
+        </p>
+      </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+        <h3 class="col-md-12 col-sm-12" style="text-align: center;" ><span id="title" >Other Information</h3>
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <!-- <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"> -->
+              <div class="card-body">
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+                  </div>
+                  <!-- <small class="text-muted">9 mins</small> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <!-- <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"> -->
+              <div class="card-body">
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <!-- <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"> -->
+              <div class="card-body">
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <br>&nbsp;
+  <br>&nbsp;
