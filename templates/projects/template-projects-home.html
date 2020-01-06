@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Project Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{{ static_url }}css/portfolio-page.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+    {% include 'includes/core/header.html' %}
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4">
+      <h1 class="display-3">A Warm Welcome!</h1>
+      <p class="lead">This is my portfolio page. You can hire me for your next project. I even work for very less budget projects with high quality projects. You can refer to my below mentioned projects I have worked on.</p>
+      <a href="{% url 'contact_page' %}" class="btn btn-primary btn-lg">Contact Me!</a>
+    </header>
+    
+    <h2 style="text-align: center;" >My Projects</h2>
+    <hr>
+    <!-- Page Features -->
+    <div class="row text-center" >
+    
+    {% for project in projects %}
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+        <div class="portfolio-image-container" style="height: 60% !important">
+            <img class="card-img-top" src="{{ media_url }}{{ project.images }}" alt="{{ project.title }}" title="{{ project.title }}" height="300" >
+        </div>
+          <div class="card-body">
+            <h4 class="card-title">{{ project.title }}</h4>
+            <span style="background-color: #aaa; padding: 3.0%; border-top-right-radius: 10px; border-bottom-left-radius: 10px;">{{ project.category }}</span>
+            <hr>
+            <p class="card-text">{{ project.summary }}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{{ project.link }}" class="btn btn-primary">Explore {{ project.title }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  {% include 'includes/core/footer.html' %}
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+  <script src="{{ static_url }}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

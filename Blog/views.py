@@ -13,7 +13,7 @@ blog_info = settings.BLOG_INFO
 def Blog(request):
     blog_post_content = Post.objects.all().order_by('-id')
     categories = Post.objects.order_by().values('category').distinct()
-    return (render( request, 'template-blog-home.html', {'blog_content': blog_post_content, 'categories': categories, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }))
+    return (render( request, 'blog/template-blog-home.html', {'blog_content': blog_post_content, 'categories': categories, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }))
     # just to show some text on browser
 
 def Single_Post_Page(request, post_id):
@@ -28,5 +28,5 @@ def Single_Post_Page(request, post_id):
             comments_object = [{'comment': 'No Comments!'}]
     except ObjectDoesNotExist:
         return 'Not found'
-    return (render( request, 'template-blog-single-post.html', {'post': post_object,'categories': categories, 'comments': comments_object, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }))
+    return (render( request, 'blog/template-blog-single-post.html', {'post': post_object,'categories': categories, 'comments': comments_object, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }))
 
