@@ -25,8 +25,7 @@ def ContactPage(request):
             email = form.cleaned_data['email']
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
-            # name = form.cleaned_data['name']
-            # name = form.cleaned_data['name']
+            
             form_data = Contact(name = name, email = email, subject = subject, message = message)
             form_data.save()
             return HttpResponse('Form is submitted!')
