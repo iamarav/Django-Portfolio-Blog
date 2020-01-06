@@ -30,3 +30,6 @@ def Single_Post_Page(request, post_id):
         return 'Not found'
     return (render( request, 'blog/template-blog-single-post.html', {'post': post_object,'categories': categories, 'comments': comments_object, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }))
 
+def Author_Page (request, author_id):
+    passing_dictionary = {'author': 1, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info }
+    return (render( request, 'template-about.html', passing_dictionary ))

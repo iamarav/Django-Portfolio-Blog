@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.conf import settings
 
 from .forms import *
+from .models import *
 
 # Define Global variables here
 media_url = settings.MEDIA_URL
@@ -20,10 +21,17 @@ def ContactPage(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            return HttpResponse('OK')
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            # name = form.cleaned_data['name']
+            # name = form.cleaned_data['name']
+            form_data = Contact(name = name, email = email, subject = subject, message = message)
+            form_data.save()
+            return HttpResponse('Form is submitted!')
         else:
-            print(form)
-            return HttpResponse('NOT OK')
+            return HttpResponse('Please check your input and try again !')
             ContactForm()
 
     return render( request, 'template-contact.html', {'static_url': static})

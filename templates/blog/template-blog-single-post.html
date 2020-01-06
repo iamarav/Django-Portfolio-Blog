@@ -37,7 +37,7 @@
         <!-- Author -->
         <p class="lead">
           by
-          <a href="#">{{ post.author }}</a>
+          <a href="{% url 'blog_home' %}author/{{ post.author }}">{{ post.author }}</a>
         </p>
 
         <hr>
