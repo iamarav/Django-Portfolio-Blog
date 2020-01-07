@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone as timezone
+from django.contrib.auth.models import AbstractUser
+
 
 # Create your models here.
 
@@ -28,3 +30,6 @@ class Contact(models.Model):
     def __str__(self):
         return str(self.name)+" ("+str(self.email)+"), "+str(self.date)+", "+str(self.time)
         
+# class User(AbstractUser):
+#    # is_active = models.BooleanField(default=False)
+#     address = models.CharField(max_length=30, blank=True)

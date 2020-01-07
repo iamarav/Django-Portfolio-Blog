@@ -20,3 +20,8 @@ class FeedbackForm(forms.Form):
                 )
   city = forms.ChoiceField(label='Your City', choices=city_choices, initial='MOH', required=True)
   feedback = forms.CharField( widget=forms.Textarea )
+
+
+class LoginForm (forms.Form):
+  username = forms.CharField(label='Username', max_length=100)
+  password = forms.CharField(label='Your Password', max_length=50)

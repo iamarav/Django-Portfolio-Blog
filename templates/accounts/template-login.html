@@ -14,26 +14,27 @@
 <div class="col-md-6">
 <div class="card">
 <header class="card-header">
-	<a href="" class="float-right btn btn-outline-primary mt-1">Sign Up</a>
+	<a href="{% url 'signup_page' %}" class="float-right btn btn-outline-primary mt-1">Sign Up</a>
 	<h4 class="card-title mt-2">Log in</h4>
 </header>
 <article class="card-body">
-<form>
+<form method="POST" >
+	{% csrf_token %}
 	<div class="form-group">
 		<label>Email address / Username</label>
-		<input type="text" class="form-control" placeholder="">
+		<input type="text" name="username" class="form-control" placeholder="">
 	</div> <!-- form-group end.// -->
 	
 	<div class="form-group">
 		<label>Enter your password</label>
-	    <input class="form-control" type="password">
+	    <input class="form-control" name="password" type="password">
 	</div> <!-- form-group end.// -->  
     <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block"> Login  </button>
     </div> <!-- form-group// -->                  
 </form>
 </article> <!-- card-body end .// -->
-<div class="border-top card-body text-center">Do not have an account? <a href="">Sign Up</a></div>
+<div class="border-top card-body text-center">Do not have an account? <a href="{% url 'signup_page' %}">Sign Up</a></div>
 </div> <!-- card.// -->
 </div> <!-- col.//-->
 

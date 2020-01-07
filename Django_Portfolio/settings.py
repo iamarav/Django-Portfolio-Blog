@@ -143,3 +143,4 @@ FOOTER_COPYRIGHT_TEXT = "&copy 2020"
 
 
 ############## DEBUG #################
+# AUTH_USER_MODEL = 'Core.User'

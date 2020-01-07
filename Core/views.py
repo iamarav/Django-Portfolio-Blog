@@ -5,6 +5,10 @@ from django.conf import settings
 from .forms import *
 from .models import *
 
+from django.contrib import auth
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 # Define Global variables here
 media_url = settings.MEDIA_URL
 static = settings.STATIC_URL
@@ -50,5 +54,45 @@ def ContactPage(request):
     # this renders the html page from template folder to frontent
 
 def LoginPage(request):
-    return render( request, 'accounts/template-login.html')
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static
+    }
+    if request.method == 'POST':
+        loginForm = LoginForm(request.POST)
+        if loginForm.is_valid():
+            username = loginForm.cleaned_data['username']
+            password = loginForm.cleaned_data['password']
+            return HttpResponse('Form is valid but no login '+str(username))
+        else:
+            return HttpResponse('Please check your input and try again'+str(loginForm.cleaned_data['username']))
+    return render( request, 'accounts/template-login.html', passing_dictionary )
     #to make a login page
+
+def SignupPage(request):
+
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static
+    }
+    if request.method == 'POST':
+        email = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        if password1 == password2:
+            try:
+                user = User.objects.get(email = email)
+                passing_dictionary ['errors'] = 'Username already exists.' 
+                return render( request, 'accounts/template-signup.html', passing_dictionary)
+            except User.DoesNotExist :
+                username = email.split('@', 1)[0] # just to remove the rest of the part after email
+                user = User.objects.create_user(email=email, username = username, password=password1)
+                auth.login(request,user)
+                # Sign Up Success
+                return render( request, 'accounts/template-signup.html', passing_dictionary )
+        else:
+            passing_dictionary ['errors'] = 'Passwords must match.' 
+            return render( request, 'accounts/template-signup.html', passing_dictionary )
+    else:
+        return render( request, 'accounts/template-signup.html', passing_dictionary )
+    #to make a signup page
