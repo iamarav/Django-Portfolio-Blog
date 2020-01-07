@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone as timezone
 import datetime
 
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 class Post(models.Model):
@@ -13,7 +15,11 @@ class Post(models.Model):
     date = models.DateField(default= timezone.now)
     time = models.TimeField(default= timezone.localtime().strftime('%H:%M:%S') )
    # author = models.ForeignKey(admin.users, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
-    author = models.CharField(max_length=50, default=1)
+   # author = models.CharField(max_length=50, default=1)
+    author = models.ForeignKey(
+                            User,
+                            on_delete= models.CASCADE
+                        )
     def __str__(self):
         return self.title
 

@@ -5,10 +5,10 @@ from django.utils import timezone as timezone
 
 class Feedback(models.Model):
     name = models.CharField(max_length=200)
-    email = models.EmailField(unique=True)
-    phone_number = models.IntegerField(default="")
+    email = models.EmailField()
+    phone_number = models.CharField(default="", blank=True, null=True, max_length=25)
     website = models.URLField(blank=True, null=True)
-    # city = models.TextChoices('Delhi', 'Mumbai', 'Mohali')
+    city = models.CharField(blank=True, null=True, max_length=20)
     message = models.TextField()
 
     def __str__(self):

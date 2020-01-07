@@ -1,0 +1,55 @@
+<link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" type="text/css" href="{{ static_url }}css/about-page.css" />
+<script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+<script src="{{ static_url }}vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+    {% include 'includes/core/header.html' %}
+
+<main role="main">
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">{{ author.first_name }} {{ author.last_name }}</h1>
+        <small>Username: <strong><em>{{ author.username }}</em></strong></small>
+        <p class="lead text-muted">{{ author.short_description }}</p>
+        <p>
+          <a href="mailto:{{ author.email }}" class="btn btn-primary my-2">Email</a>
+          <a href="{% url 'blog_home' %}" class="btn btn-secondary my-2">Blog</a>
+        </p>
+      </div>
+    </section>
+    {% if user_posts is not blank or null %}
+    
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+        <h3 class="col-md-12 col-sm-12" style="text-align: center;" ><span id="title" >Blog Articles</h3>
+            {% for post in user_posts %}
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ media_url }}{{ post.featured_image }}" alt="{{ post.title }}">
+                    &nbsp;<h3 style="padding-left: 5%; background-color: #eee; ">{{ post.title }}</h3>
+                    
+                    <div class="card-body">
+                        <p class="card-text">{{ post.excerpt }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="return(window.location.href='{% url 'blog_home' %}post/{{ post.id }}')" >View</button>
+                            <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+                        </div>
+                        <small class="text-muted">{{ post.date }}, {{ post.time }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </main>
+
+  <br>&nbsp;
+  <br>&nbsp;
