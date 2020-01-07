@@ -11,3 +11,5 @@ class Project(models.Model):
 
 class Sample(models.Model):
     name = models.CharField(max_length=1000)
+    summary = models.CharField(max_length=1000)
+    category = models.CharField(max_length=100)

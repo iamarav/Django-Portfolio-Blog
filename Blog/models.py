@@ -5,17 +5,21 @@ import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
+        
+class Categories(models.Model):
+    category = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.category
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
     featured_image = models.ImageField(upload_to='images/blog_images')
     excerpt =  models.CharField(max_length=2000)
-    category = models.CharField(max_length=200, default="Uncategorized")
+    category = models.ForeignKey(Categories, on_delete=models.DO_NOTHING)
     content = models.TextField()
     date = models.DateField(default= timezone.now)
     time = models.TimeField(default= timezone.localtime().strftime('%H:%M:%S') )
-   # author = models.ForeignKey(admin.users, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
-   # author = models.CharField(max_length=50, default=1)
     author = models.ForeignKey(
                             User,
                             on_delete= models.CASCADE
@@ -24,14 +28,13 @@ class Post(models.Model):
         return self.title
 
 class Comment(models.Model):
-    post_id = models.CharField(max_length=50)
+    post = models.ForeignKey(Post, on_delete= models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     comment_time = datetime.datetime.now()
     comment = models.TextField() 
     date = models.DateField(default= timezone.now)
     time = models.TimeField(default= timezone.localtime().strftime('%H:%M:%S') )
-    # post_id = models.ForeignKey(Posts.id)
-
+    
     def __str__(self):
-        return str(self.name) + " on Post: \"" + str(self.post_id) + "\" at " + str(self.date) +" "+ str (self.time)
+        return self.name
