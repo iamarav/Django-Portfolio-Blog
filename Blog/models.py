@@ -12,6 +12,11 @@ class Categories(models.Model):
     def __str__(self):
         return self.category
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+
 class Post(models.Model):
     title = models.CharField(max_length=250)
     featured_image = models.ImageField(upload_to='images/blog_images')
