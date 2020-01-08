@@ -7,7 +7,7 @@ from django.conf import settings
 # Create your models here.
         
 class Categories(models.Model):
-    category = models.CharField(max_length=30)
+    category = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
         return self.category

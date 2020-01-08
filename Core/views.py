@@ -79,17 +79,25 @@ def SignupPage(request):
         email = request.POST.get('username')
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
         if password1 == password2:
             try:
                 user = User.objects.get(email = email)
-                passing_dictionary ['errors'] = 'Username already exists.' 
+                passing_dictionary ['errors'] = 'Email already exists.' 
                 return render( request, 'accounts/template-signup.html', passing_dictionary)
             except User.DoesNotExist :
                 username = email.split('@', 1)[0] # just to remove the rest of the part after email
-                user = User.objects.create_user(email=email, username = username, password=password1)
-                auth.login(request,user)
+                try:
+                    usernameExists = User.objects.get(username = username) # just to check if the username exists
+                    username += str(1) # appending some additional text at the end
+                except User.DoesNotExist :
+                    username = username
+                user = User.objects.create_user(email=email, username = username, first_name = fname, last_name = lname, password=password1)
+#                auth.login(request,user) # This can be used to automatically login after successful signup.
                 # Sign Up Success
-                return render( request, 'accounts/template-signup.html', passing_dictionary )
+                passing_dictionary ['success'] = 'Signup Success. Login to continue.' 
+                return render( request, 'accounts/template-login.html', passing_dictionary )
         else:
             passing_dictionary ['errors'] = 'Passwords must match.' 
             return render( request, 'accounts/template-signup.html', passing_dictionary )
