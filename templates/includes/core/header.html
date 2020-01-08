@@ -12,6 +12,13 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
+          {% if request.user.id %}
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'dashboard_page' %}">Dashboard
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'about_page' %}">About</a>
           </li>
@@ -24,9 +31,15 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'contact_page' %}">Contact</a>
           </li>
+          {% if not request.user.id %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login_page' %}">Login</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_page' %}">Logout</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

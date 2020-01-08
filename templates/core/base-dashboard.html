@@ -24,14 +24,16 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">{{ site_info.SITE_NAME }}</div>
+      <a href="{% url 'dashboard_page' %}"><div class="sidebar-heading">{{ site_info.SITE_NAME }}</div></a>
       <div class="list-group list-group-flush">
-        <a href="{% url 'home_page' %}" class="list-group-item list-group-item-action bg-light">Home</a>
-        <a href="{% url 'blog_home' %}" class="list-group-item list-group-item-action bg-light">View Blog</a>
-        <a href="{% url 'projects_home' %}" class="list-group-item list-group-item-action bg-light">View Projects</a>
-        <a href="{% url 'add_blog_post_page' %}" class="list-group-item list-group-item-action bg-light">Add Blog Post</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        <!-- <a href="{% url 'home_page' %}" class="list-group-item list-group-item-action bg-light">Home</a> -->
+        <a href="{% url 'view_blog_posts_dash_page' %}" class="list-group-item list-group-item-action bg-light">Blog Posts</a>
+        <a href="{% url 'view_blog_comments_dash_page' %}" class="list-group-item list-group-item-action bg-light">Blog Comments</a>
+        <a href="{% url 'view_projects_dash_page' %}" class="list-group-item list-group-item-action bg-light">Projects</a>
+        <a href="{% url 'view_contact_response_dash_page' %}" class="list-group-item list-group-item-action bg-light">Contact Form Responses</a>
+        <a href="{% url 'view_feedback_response_dash_page' %}" class="list-group-item list-group-item-action bg-light">Feedback Responses</a>
+        <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> -->
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -49,10 +51,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'home_page' %}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="{% url 'blog_home' %}">View Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'projects_home' %}">View Projects</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

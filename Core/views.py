@@ -185,7 +185,7 @@ def Logout(request):
     request.session['successLogout'] = 'You are now logged out successfully!' #logout message
     return HttpResponseRedirect('/user/login')
 
-
+@login_required(login_url='/user/login/')
 def AddBlogPostPage(request):
     passing_dictionary = {
         'media_url': media_url,
