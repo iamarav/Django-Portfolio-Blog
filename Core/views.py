@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.conf import settings
 
@@ -80,7 +80,11 @@ def LoginPage(request):
         'media_url': media_url,
         'site_info': site_info,
         'static_url': static,
-    }
+    } 
+    if 'successLogout' in request.session:
+        passing_dictionary ['successLogout'] = 'You are logged out successfully!'
+        del request.session['successLogout']
+        request.session.modified = True
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -92,7 +96,7 @@ def LoginPage(request):
                     user = User.objects.get(email = username)
                     if user.check_password(password):
                         # Password is correct and user is authenticated
-                        print('Passwordd Success')
+                        print('Password is OK')
                     else:
                         user = None
                         # Password is wrong
@@ -105,8 +109,9 @@ def LoginPage(request):
             if user is not None:
                 # Login is success
                 auth.login(request, user)
-                passing_dictionary ['success'] = 'Woohoo! You are logged in to awesomeness.' 
-                return render( request, 'accounts/template-login.html', passing_dictionary )
+                passing_dictionary ['success'] = 'Woohoo! You are logged in to awesomeness.'
+                return HttpResponseRedirect('/dashboard') 
+                # return render( request, 'core/template-dashboard.html', passing_dictionary )
             else:
                 # There is some error while logging in 
                 passing_dictionary ['errors'] = 'Invalid Credentials buddy! Try again.' 
@@ -163,7 +168,7 @@ def SignupPage(request):
         return render( request, 'accounts/template-signup.html', passing_dictionary )
         #to make a signup page
 
-@login_required
+@login_required(login_url='/user/login/')
 def DashboardPage(request):
     passing_dictionary = {
         'media_url': media_url,
@@ -171,3 +176,9 @@ def DashboardPage(request):
         'site_info': site_info,
     }
     return render( request, 'core/template-dashboard.html', passing_dictionary )
+
+@login_required(login_url='/')
+def Logout(request):
+    auth.logout(request) #logout the current user
+    request.session['successLogout'] = 'You are now logged out successfully!' #logout message
+    return HttpResponseRedirect('/user/login')

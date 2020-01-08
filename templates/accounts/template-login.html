@@ -24,6 +24,9 @@
 	{% if success %}
 	<div class="alert alert-success" role="alert">{{ success }}</div>
 	{% endif %}
+	{% if successLogout %}
+	<div class="alert alert-success" role="alert">{{ successLogout }}</div>
+	{% endif %}
 <form method="POST" >
 	{% csrf_token %}
 	<div class="form-group">
