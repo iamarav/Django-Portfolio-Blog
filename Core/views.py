@@ -9,6 +9,8 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+from django.contrib.auth import authenticate
+
 # Define Global variables here
 media_url = settings.MEDIA_URL
 static = settings.STATIC_URL
@@ -59,18 +61,44 @@ def LoginPage(request):
         'static_url': static
     }
     if request.method == 'POST':
-        loginForm = LoginForm(request.POST)
-        if loginForm.is_valid():
-            username = loginForm.cleaned_data['username']
-            password = loginForm.cleaned_data['password']
-            return HttpResponse('Form is valid but no login '+str(username))
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username is not "" and password is not "":
+            # check credentials
+            if '@' in username:
+                # user is logging with email
+                try:
+                    user = User.objects.get(email = username)
+                    if user.check_password(password):
+                        # Password is correct and user is authenticated
+                        print('Passwordd Success')
+                    else:
+                        user = None
+                        # Password is wrong
+                except User.DoesNotExist :
+                    #User does not exist with the corresponding email
+                    user = None
+            else:
+                # User is logging with username
+                user = authenticate(username= username, password= password)
+            if user is not None:
+                # Login is success
+                auth.login(request, user)
+                passing_dictionary ['success'] = 'Woohoo! You are logged in to awesomeness.' 
+                return render( request, 'accounts/template-login.html', passing_dictionary )
+            else:
+                # There is some error while logging in 
+                passing_dictionary ['errors'] = 'Invalid Credentials buddy! Try again.' 
+                return render( request, 'accounts/template-login.html', passing_dictionary )
         else:
-            return HttpResponse('Please check your input and try again'+str(loginForm.cleaned_data['username']))
-    return render( request, 'accounts/template-login.html', passing_dictionary )
-    #to make a login page
+            # Throw error of empty password
+            passing_dictionary ['errors'] = 'Enter valid values.' 
+            return render( request, 'accounts/template-login.html', passing_dictionary )
+    else:
+        return render( request, 'accounts/template-login.html', passing_dictionary )
+        # to show the login page if there is no Form POSTED
 
 def SignupPage(request):
-
     passing_dictionary = {
         'media_url': media_url,
         'static_url': static
@@ -103,4 +131,4 @@ def SignupPage(request):
             return render( request, 'accounts/template-signup.html', passing_dictionary )
     else:
         return render( request, 'accounts/template-signup.html', passing_dictionary )
-    #to make a signup page
+        #to make a signup page

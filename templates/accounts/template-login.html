@@ -18,6 +18,12 @@
 	<h4 class="card-title mt-2">Log in</h4>
 </header>
 <article class="card-body">
+	{% if errors %}
+	<div class="alert alert-danger" role="alert">{{ errors }}</div>
+	{% endif %}
+	{% if success %}
+	<div class="alert alert-success" role="alert">{{ success }}</div>
+	{% endif %}
 <form method="POST" >
 	{% csrf_token %}
 	<div class="form-group">
