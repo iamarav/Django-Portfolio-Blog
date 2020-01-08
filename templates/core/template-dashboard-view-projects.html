@@ -1,5 +1,47 @@
 {% extends 'core/base-dashboard.html' %}
 
 {% block content %}
-Here you can see projects.
+&nbsp;<br>
+<h2>Projects</h2>
+<hr>
+{% if successDash %}
+    <div class="alert alert-success" role="alert">{{ successDash }}</div>
+{% endif %}
+{% if projects %}
+<table cellpadding="10" border="1px solid" >
+    <thead>
+        <th>Project ID</th>
+        <th>Project Title</th>
+        <th>Project Image</th>
+        <th>Category</th>
+        <th>Project Link</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for project in projects %}
+        <tr><td>{{ project.id }}</td>
+            <td>{{ project.title }}</td>
+            <td ><img src="{{ media_url }}{{ project.images }}" width="50px" /></td >
+            <td>{{ project.category }}</td>
+            <td><a href="{{ project.link }}">View</a></td>
+            <td>
+                <span class="fa fa-trash btn btn-danger" onclick="return(confirmDel('{ % url 'delete_comment_dash_page' post.id %}'))"></span> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <span>No Project found. Add a project soon.</span>
+{% endif %}
+
+<script type="text/javascript" >
+function confirmDel(link){
+    confirmd = confirm('Are you sure you want to delete?');
+    if(confirmd){
+        window.location.href = link;
+    }
+}
+</script>
+
 {% endblock content %}

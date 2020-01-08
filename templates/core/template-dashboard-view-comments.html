@@ -1,5 +1,49 @@
 {% extends 'core/base-dashboard.html' %}
 
 {% block content %}
-Here you will see the blog comments.
+&nbsp;<br>
+<h2>Blog Post Comments</h2>
+<hr>
+{% if successDash %}
+    <div class="alert alert-success" role="alert">{{ successDash }}</div>
+{% endif %}
+{% if comments %}
+<table cellpadding="10" border="1px solid" >
+    <thead>
+        <th>Post ID</th>
+        <th>Post Name</th>
+        <th>Commenter Name</th>
+        <th>Commenter Email</th>
+        <th>Comment</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr><td>{{ comment.post.id }}</td>
+            <td><a href="{% url 'single_post_page' comment.post.id %}" title="View Post" >{{ comment.post.title }}</a></td>
+            <td>{{ comment.name }}</td>
+            <td>{{ comment.email }}</td>
+            <td>{{ comment.comment }}</a></td>
+            <td>{{ comment.date }}<br>{{ comment.time }}</td>
+            <td>
+                <span class="fa fa-trash btn btn-danger" onclick="return(confirmDel('{ % url 'delete_comment_dash_page' post.id %}'))"></span> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <span>No Comment on any Post yet! Check back later.</span>
+{% endif %}
+
+<script type="text/javascript" >
+function confirmDel(link){
+    confirmd = confirm('Are you sure you want to delete?');
+    if(confirmd){
+        window.location.href = link;
+    }
+}
+</script>
+
 {% endblock content %}

@@ -224,6 +224,12 @@ def ViewBlogCommentsPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if 'successDash' in request.session:
+        passing_dictionary ['successDash'] = request.session['successDash']
+        del request.session['successDash']
+        request.session.modified = True
+
+    passing_dictionary['comments'] = Comment.objects.all().order_by('-id')
     return render( request, 'core/template-dashboard-view-comments.html', passing_dictionary )
 
 @login_required(login_url= LOGIN_URL )
@@ -242,6 +248,11 @@ def ViewProjectsPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if 'successDash' in request.session:
+        passing_dictionary ['successDash'] = request.session['successDash']
+        del request.session['successDash']
+        request.session.modified = True
+    passing_dictionary['projects'] = Project.objects.all().order_by('-id')
     return render( request, 'core/template-dashboard-view-projects.html', passing_dictionary )
 
 @login_required(login_url= LOGIN_URL )
