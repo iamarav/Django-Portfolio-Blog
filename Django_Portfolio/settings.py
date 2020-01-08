@@ -136,7 +136,12 @@ STATICFILES_DIRS = (
 ''' BLOG SETTINGS ONLY '''
 BLOG_INFO = {
     'BLOG_NAME' : 'My Blog', #enter the blog name
-    'BLOG_DESCRIPTION' : 'This is awesome!',
+    'BLOG_DESCRIPTION' : 'This is the blog!',
+}
+
+SITE_INFO = {
+    'SITE_NAME': 'My Portfolio',
+    'SITE_DESCRIPTION' : 'This is my awesome site! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque unde nisi, totam quas ipsam.',
 }
 
 FOOTER_COPYRIGHT_TEXT = "&copy 2020"

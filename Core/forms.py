@@ -9,16 +9,16 @@ class ContactForm(forms.Form):
   #  ip = request.META['REMOTE_ADDR']
 
 class FeedbackForm(forms.Form):
-  name = forms.CharField(label='Your name', max_length=100)
-  email = forms.EmailField(label='Your Email', max_length=200)
-  phone = forms.CharField(label='Your Phone Number', required=False)
-  city_choices = (
-                  ('DEL', ("Delhi")),
-                  ('MOH', ("Mohali")),
-                  ('MUM', ("Mumbai")),
-                  ('BAN', ("Bangalore")),
-                )
-  city = forms.ChoiceField(label='Your City', choices=city_choices, initial='MOH', required=True)
+  name = forms.CharField(label='Name', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Enter your name here'}))
+  email = forms.EmailField(label='Email', max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Enter your email here'}))
+  phone = forms.CharField(label='Phone', required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter phone number here'}))
+  # city_choices = (
+  #                 ('DEL', ("Delhi")),
+  #                 ('MOH', ("Mohali")),
+  #                 ('MUM', ("Mumbai")),
+  #                 ('BAN', ("Bangalore")),
+  #               )
+  # city = forms.ChoiceField(label='Your City', choices=city_choices, initial='MOH', required=True)
   feedback = forms.CharField( widget=forms.Textarea )
 
 

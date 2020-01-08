@@ -1,16 +1,113 @@
-<h2>Hi there,</h2>
-<hr>
-<nav>Menu:
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="{% url 'about_page' %}">About</a></li>
-        <li><a href="{% url 'blog_home' %}">Blog Page</a></li>
-        <li><a href="{% url 'projects_home' %}">Projects</a></li>
-        <li><a class="nav-link" href="{% url 'contact_page' %}">Contact</a></li>
-    </ul>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ feedbackForm.as_p }}
-        <input type="submit">
-    </form>
-</nav>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <style>
+    form textarea{
+     height: 100px; 
+    }
+    form label{
+      margin-bottom: 0;
+    }
+    form input{
+      padding: 1%;
+    }
+  </style>
+  <title>Home Page</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ static_url }}vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{{ static_url }}css/home-page.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+    {% include 'includes/core/header.html' %}
+
+  <!-- Header -->
+  <header class="bg-primary py-5 mb-5">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-lg-12">
+          <h1 class="display-4 text-white mt-5 mb-2">{{ site_info.SITE_NAME }}</h1>
+          <p class="lead mb-5 text-white-50">{{ site_info.SITE_DESCRIPTION }}</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7 mb-5">
+        <h2>What We Do</h2>
+        <hr>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'blog_home' %}">See my Blog &raquo;</a>
+      </div>
+      <div class="col-md-5 mb-5">
+        <h2>Feedback</h2>
+        <hr>
+
+        <form action="" method="POST" style="list-style: none;">
+            {% csrf_token %}
+            <table>
+            {{ feedbackForm.as_table }}
+            <tr><td>
+              <input type="submit" class="btn btn-primary" >
+            </td></tr>
+            </table>
+        </form>
+        <small class="col-md-12"><a href="{% url 'contact_page' %}">Want to Contact? Click here for details.</a></small>
+       </div>
+    </div>
+    <!-- /.row -->
+
+    {% if projects %}
+    <div class="row">
+      <div class="col-md-12" style="text-align: center;"><h2>Projects</h2>
+        <hr>
+      </div>
+      {% for project in projects %}
+      <div class="col-md-4 mb-5">
+        <div class="card h-100">
+          <img class="card-img-top" src="{{ media_url }}{{ project.images }}" height="300" alt="{{ project.title }}" title="{{ project.title }}">
+          <div class="card-body">
+            <h4 class="card-title">{{ project.title }}</h4>
+            <p class="card-text">{{ project.summary }}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{{ project.link }}" class="btn btn-primary">Explore {{ project.title }} !</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!-- /.row -->
+
+
+  </div>
+  <!-- /.container -->
+
+    <!-- TESTING -->
+
+{% include 'includes/core/footer.html' %}
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ static_url }}vendor/jquery/jquery.min.js"></script>
+  <script src="{{ static_url }}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
