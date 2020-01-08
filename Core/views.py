@@ -6,6 +6,7 @@ from .forms import *
 from .models import *
 
 from Projects.models import Project
+from Blog.models import *
 
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -19,6 +20,8 @@ from django.contrib.auth.decorators import login_required
 media_url = settings.MEDIA_URL
 static = settings.STATIC_URL
 site_info = settings.SITE_INFO
+LOGIN_URL = settings.LOGIN_URL
+LOGOUT_URL = settings.LOGOUT_URL
 
 def HomePage(request):
     passing_dictionary = {                   
@@ -170,7 +173,7 @@ def SignupPage(request):
 
 # DASHBOARD CONTENT AHEAD
 
-@login_required(login_url='/user/login/')
+@login_required(login_url= LOGIN_URL)
 def DashboardPage(request):
     passing_dictionary = {
         'media_url': media_url,
@@ -179,17 +182,82 @@ def DashboardPage(request):
     }
     return render( request, 'core/template-dashboard.html', passing_dictionary )
 
-@login_required(login_url='/')
+@login_required( login_url='/')
 def Logout(request):
     auth.logout(request) #logout the current user
     request.session['successLogout'] = 'You are now logged out successfully!' #logout message
-    return HttpResponseRedirect('/user/login')
+    return HttpResponseRedirect( LOGIN_URL )
 
-@login_required(login_url='/user/login/')
+@login_required( login_url= LOGIN_URL )
 def AddBlogPostPage(request):
     passing_dictionary = {
         'media_url': media_url,
         'static_url': static,
         'site_info': site_info,
     }
-    return render( request, 'core/template-dashboard.html', passing_dictionary )
+    return render( request, 'core/template-dashboard-add-blog-post.html', passing_dictionary )
+
+@login_required( login_url= LOGIN_URL )
+def ViewBlogPostsPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    if 'successDash' in request.session:
+        passing_dictionary ['successDash'] = request.session['successDash']
+        del request.session['successDash']
+        request.session.modified = True
+    passing_dictionary['posts'] = Post.objects.all().order_by('-id')
+    return render( request, 'core/template-dashboard-view-blog.html', passing_dictionary )
+
+@login_required( login_url= LOGIN_URL )
+def DeleteBlogPost(request, post_id):
+    Post.objects.filter(id=post_id).delete()
+    request.session['successDash'] = 'Post ID: ' + str(post_id) + ' deleted successfully.'   
+    return HttpResponseRedirect ('/dashboard/blog/view/posts/')
+
+@login_required( login_url= LOGIN_URL )
+def ViewBlogCommentsPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard-view-comments.html', passing_dictionary )
+
+@login_required(login_url= LOGIN_URL )
+def AddProjectPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard-add-project.html', passing_dictionary )
+
+@login_required(login_url= LOGIN_URL )
+def ViewProjectsPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard-view-projects.html', passing_dictionary )
+
+@login_required(login_url= LOGIN_URL )
+def ViewFeedbackResponsesPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard-view-feedbacks.html', passing_dictionary )
+
+@login_required(login_url= LOGIN_URL )
+def ViewContactResponsesPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard-view-contact-responses.html', passing_dictionary )

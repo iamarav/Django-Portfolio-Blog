@@ -146,6 +146,8 @@ SITE_INFO = {
 
 FOOTER_COPYRIGHT_TEXT = "&copy 2020"
 
+LOGIN_URL = '/user/login/'
+LOGOUT_URL = '/user/logout/'
 
 ############## DEBUG #################
 # AUTH_USER_MODEL = 'Core.User'

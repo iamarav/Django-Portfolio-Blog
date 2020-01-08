@@ -1,5 +1,53 @@
 {% extends 'core/base-dashboard.html' %}
 
 {% block content %}
-Here you will see the blog posts, and you can add one here too.
+&nbsp;<br>
+<h2>Blog Posts <span><a href="{% url 'add_blog_post_dash_page' %}" class="btn btn-success" >Add New Post</a></span>&nbsp;<span><a href="{% url 'add_blog_post_dash_page' %}" class="btn btn-secondary" >Add New Category</a></span></h2>
+<hr>
+{% if successDash %}
+    <div class="alert alert-success" role="alert">{{ successDash }}</div>
+{% endif %}
+{% if posts %}
+<table cellpadding="10" border="1px solid" >
+    <thead>
+        <th>Post ID</th>
+        <th>Title</th>
+        <th>Excerpt</th>
+        <th>Category</th>
+        <th>Author</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr><td>{{ post.id }}</td>
+            <td><a href="{% url 'single_post_page' post.id %}" title="View Post" >{{ post.title }}</a></td>
+            <td>{{ post.excerpt }}</td>
+            <td>{{ post.category }}</td>
+            <td><a href="{% url 'author_page' post.author.id %}" title="View Author Profile" >{{ post.author.first_name }} ({{ post.author.username }})</a></td>
+            <td>{{ post.date }}, {{ post.time }}</td>
+            <td>
+                <span class="fa fa-trash btn btn-danger" onclick="return(confirmDel('{% url 'delete_blog_post_dash_page' post.id %}'))"></span>
+                
+                <a href="#edit/{{ post.id }}">
+                      <span class="fa fa-pencil btn btn-warning"></span>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <span>No Blog Posts yet! Add a new blog post.</span>
+{% endif %}
+
+<script type="text/javascript" >
+function confirmDel(link){
+    confirmd = confirm('Are you sure you want to delete?');
+    if(confirmd){
+        window.location.href = link;
+    }
+}
+</script>
+
 {% endblock content %}
