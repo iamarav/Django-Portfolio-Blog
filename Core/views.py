@@ -168,6 +168,8 @@ def SignupPage(request):
         return render( request, 'accounts/template-signup.html', passing_dictionary )
         #to make a signup page
 
+# DASHBOARD CONTENT AHEAD
+
 @login_required(login_url='/user/login/')
 def DashboardPage(request):
     passing_dictionary = {
@@ -182,3 +184,12 @@ def Logout(request):
     auth.logout(request) #logout the current user
     request.session['successLogout'] = 'You are now logged out successfully!' #logout message
     return HttpResponseRedirect('/user/login')
+
+
+def AddBlogPostPage(request):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    return render( request, 'core/template-dashboard.html', passing_dictionary )
