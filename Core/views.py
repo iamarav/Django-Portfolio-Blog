@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.conf import settings
 
@@ -84,11 +84,16 @@ def LoginPage(request):
         'site_info': site_info,
         'static_url': static,
     } 
+    if request.user.id :
+        # send user to dashboard if already logged in 
+        return HttpResponseRedirect ('/dashboard')
     if 'successLogout' in request.session:
+        # display message of successful logout if exists.
         passing_dictionary ['successLogout'] = 'You are logged out successfully!'
         del request.session['successLogout']
         request.session.modified = True
     if request.method == 'POST':
+        # if form is submitted
         username = request.POST.get('username')
         password = request.POST.get('password')
         if username is not "" and password is not "":
@@ -133,7 +138,11 @@ def SignupPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if request.user.id :
+        # send user to dashboard if already logged in 
+        return HttpResponseRedirect ('/dashboard')
     if request.method == 'POST':
+        # if signup form is submitted
         email = request.POST.get('username')
         if '@' not in email:
             # User has entered invalid email. We can also use regex here.
@@ -173,7 +182,7 @@ def SignupPage(request):
 
 # DASHBOARD CONTENT AHEAD
 
-@login_required(login_url= LOGIN_URL)
+@login_required( login_url= LOGIN_URL )
 def DashboardPage(request):
     passing_dictionary = {
         'media_url': media_url,
@@ -182,20 +191,31 @@ def DashboardPage(request):
     }
     return render( request, 'core/template-dashboard.html', passing_dictionary )
 
-@login_required( login_url='/')
+@login_required( login_url= LOGIN_URL)
 def Logout(request):
     auth.logout(request) #logout the current user
     request.session['successLogout'] = 'You are now logged out successfully!' #logout message
     return HttpResponseRedirect( LOGIN_URL )
 
 @login_required( login_url= LOGIN_URL )
-def AddBlogPostPage(request):
+def ModBlogPostPage(request, action, id):
     passing_dictionary = {
         'media_url': media_url,
         'static_url': static,
         'site_info': site_info,
     }
-    return render( request, 'core/template-dashboard-add-blog-post.html', passing_dictionary )
+    passing_dictionary ['categories'] = Categories.objects.all()
+    
+    if action == 'edit':
+        passing_dictionary ['action'] = 'edit'
+        passing_dictionary ['post_id'] = id
+        passing_dictionary ['post'] = Post.objects.filter(id = id)[0]
+        return render( request, 'core/template-dashboard-mod-blog-post.html', passing_dictionary )
+    elif action == 'add':
+        passing_dictionary ['action'] = 'add'
+        return render( request, 'core/template-dashboard-mod-blog-post.html', passing_dictionary )
+    else:
+        raise Http404
 
 @login_required( login_url= LOGIN_URL )
 def ViewBlogPostsPage(request):
@@ -212,10 +232,29 @@ def ViewBlogPostsPage(request):
     return render( request, 'core/template-dashboard-view-blog.html', passing_dictionary )
 
 @login_required( login_url= LOGIN_URL )
-def DeleteBlogPost(request, post_id):
-    Post.objects.filter(id=post_id).delete()
-    request.session['successDash'] = 'Post ID: ' + str(post_id) + ' deleted successfully.'   
-    return HttpResponseRedirect ('/dashboard/blog/view/posts/')
+def DeleteItem(request, type, id):
+    if type == 'post':
+        Post.objects.filter(id=id).delete()
+        request.session['successDash'] = 'Post ID: ' + str(id) + ' deleted successfully.'   
+        return HttpResponseRedirect ('/dashboard/blog/view/posts/')
+    elif type == 'comment':
+        Comment.objects.filter(id=id).delete()
+        request.session['successDash'] = 'Comment ID: ' + str(id) + ' deleted successfully.'   
+        return HttpResponseRedirect ('/dashboard/blog/view/comments/')
+    elif type == 'project':
+        Project.objects.filter(id=id).delete()
+        request.session['successDash'] = 'Project ID: ' + str(id) + ' deleted successfully.'   
+        return HttpResponseRedirect ('/dashboard/projects/view/')
+    elif type == 'contact':
+        Contact.objects.filter(id=id).delete()
+        request.session['successDash'] = 'Response ID: ' + str(id) + ' deleted successfully.'   
+        return HttpResponseRedirect ('/dashboard/contact_form/responses/')
+    elif type == 'feedback':
+        Feedback.objects.filter(id=id).delete()
+        request.session['successDash'] = 'Feedback ID: ' + str(id) + ' deleted successfully.'   
+        return HttpResponseRedirect ('/dashboard/feedback/responses/')
+    else:
+        raise Http404()
 
 @login_required( login_url= LOGIN_URL )
 def ViewBlogCommentsPage(request):
@@ -233,13 +272,26 @@ def ViewBlogCommentsPage(request):
     return render( request, 'core/template-dashboard-view-comments.html', passing_dictionary )
 
 @login_required(login_url= LOGIN_URL )
-def AddProjectPage(request):
+def ModProjectPage(request, action, id):
     passing_dictionary = {
         'media_url': media_url,
         'static_url': static,
         'site_info': site_info,
     }
-    return render( request, 'core/template-dashboard-add-project.html', passing_dictionary )
+#    passing_dictionary ['categories'] = Categories.objects.all()
+    
+    if action == 'edit':
+        passing_dictionary ['action'] = 'edit'
+        passing_dictionary ['project_id'] = id
+        passing_dictionary ['project'] = Project.objects.filter(id = id)[0]
+
+        
+        return render( request, 'core/template-dashboard-mod-project.html', passing_dictionary )
+    elif action == 'add':
+        passing_dictionary ['action'] = 'add'
+        return render( request, 'core/template-dashboard-mod-project.html', passing_dictionary )
+    else:
+        raise Http404
 
 @login_required(login_url= LOGIN_URL )
 def ViewProjectsPage(request):
@@ -262,6 +314,11 @@ def ViewFeedbackResponsesPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if 'successDash' in request.session:
+        passing_dictionary ['successDash'] = request.session['successDash']
+        del request.session['successDash']
+        request.session.modified = True
+    passing_dictionary['feedbacks'] = Feedback.objects.all().order_by('-id')
     return render( request, 'core/template-dashboard-view-feedbacks.html', passing_dictionary )
 
 @login_required(login_url= LOGIN_URL )
@@ -271,4 +328,9 @@ def ViewContactResponsesPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    if 'successDash' in request.session:
+        passing_dictionary ['successDash'] = request.session['successDash']
+        del request.session['successDash']
+        request.session.modified = True
+    passing_dictionary['responses'] = Contact.objects.all().order_by('-id')
     return render( request, 'core/template-dashboard-view-contact-responses.html', passing_dictionary )

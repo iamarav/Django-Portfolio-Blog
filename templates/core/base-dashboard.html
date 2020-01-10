@@ -23,17 +23,17 @@
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
+    <div class="bg-dark" id="sidebar-wrapper">
       <a href="{% url 'dashboard_page' %}"><div class="sidebar-heading">{{ site_info.SITE_NAME }}</div></a>
       <div class="list-group list-group-flush">
-        <!-- <a href="{% url 'home_page' %}" class="list-group-item list-group-item-action bg-light">Home</a> -->
-        <a href="{% url 'view_blog_posts_dash_page' %}" class="list-group-item list-group-item-action bg-light">Blog Posts</a>
-        <a href="{% url 'view_blog_comments_dash_page' %}" class="list-group-item list-group-item-action bg-light">Blog Comments</a>
-        <a href="{% url 'view_projects_dash_page' %}" class="list-group-item list-group-item-action bg-light">Projects</a>
-        <a href="{% url 'view_contact_response_dash_page' %}" class="list-group-item list-group-item-action bg-light">Contact Form Responses</a>
-        <a href="{% url 'view_feedback_response_dash_page' %}" class="list-group-item list-group-item-action bg-light">Feedback Responses</a>
-        <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> -->
+        <!-- <a href="{% url 'home_page' %}" class="list-group-item list-group-item-action bg-dark">Home</a> -->
+        <a href="{% url 'view_blog_posts_dash_page' %}" class="active list-group-item list-group-item-action bg-dark">Blog Posts</a>
+        <a href="{% url 'view_blog_comments_dash_page' %}" class="active list-group-item list-group-item-action bg-dark">Blog Comments</a>
+        <a href="{% url 'view_projects_dash_page' %}" class="active list-group-item list-group-item-action bg-dark">Projects</a>
+        <a href="{% url 'view_contact_response_dash_page' %}" class="active list-group-item list-group-item-action bg-dark">Contact Form Responses</a>
+        <a href="{% url 'view_feedback_response_dash_page' %}" class="active list-group-item list-group-item-action bg-dark">Feedback Responses</a>
+        <!-- <a href="#" class="active list-group-item list-group-item-action bg-dark">Profile</a>
+        <a href="#" class="active list-group-item list-group-item-action bg-dark">Status</a> -->
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -41,7 +41,7 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
         <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,14 @@
     });
   </script>
 
+<script type="text/javascript" >
+  function confirmDel(link){
+      confirmd = confirm('Are you sure you want to delete?');
+      if(confirmd){
+          window.location.href = link;
+      }
+  }
+  </script>
 </body>
 
 </html>

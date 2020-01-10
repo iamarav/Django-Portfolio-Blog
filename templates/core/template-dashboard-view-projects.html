@@ -2,7 +2,7 @@
 
 {% block content %}
 &nbsp;<br>
-<h2>Projects</h2>
+<h2>Projects&nbsp;<span><a href="{% url 'mod_project_dash_page' 'add' 0 %}" class="btn btn-success" >Add New Project</a></span></h2>
 <hr>
 {% if successDash %}
     <div class="alert alert-success" role="alert">{{ successDash }}</div>
@@ -25,7 +25,10 @@
             <td>{{ project.category }}</td>
             <td><a href="{{ project.link }}">View</a></td>
             <td>
-                <span class="fa fa-trash btn btn-danger" onclick="return(confirmDel('{ % url 'delete_comment_dash_page' post.id %}'))"></span> 
+                <span class="fa fa-trash btn btn-danger" title="Delete Project" onclick="return(confirmDel('{% url 'delete_item_dash_page' 'project' project.id %}'))"></span>
+                <a href="{% url 'mod_project_dash_page' 'edit' project.id %}" title="Edit Project">
+                    <span class="fa fa-pencil btn btn-warning"></span>
+                </a> 
             </td>
         </tr>
         {% endfor %}

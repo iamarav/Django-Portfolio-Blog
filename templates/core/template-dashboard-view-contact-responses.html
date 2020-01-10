@@ -1,5 +1,57 @@
 {% extends 'core/base-dashboard.html' %}
 
 {% block content %}
-Here you can see contact responses.
+&nbsp;<br>
+<h2>Contact Form Responses</h2>
+<hr>
+{% if successDash %}
+    <div class="alert alert-success" role="alert">{{ successDash }}</div>
+{% endif %}
+{% if responses %}
+<table cellpadding="10" border="1px solid" >
+    <thead>
+        <th>Response ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Website</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </thead>
+    <tbody>
+        {% for response in responses %}
+        <tr><td>{{ response.id }}</td>
+            <td>{{ response.name }}</td>
+            <td>{{ response.email }}</td>
+            <td>{{ response.phone_number }}</td>
+            {% if response.website is not None %}
+            <td><a href="{{ response.website }}">View</a></td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+            <td>{{ response.subject }}</td>
+            <td>{{ response.message }}</td>
+            <td>{{ response.date }}, {{ response.time }}</td>
+            <td>
+                <span class="fa fa-trash btn btn-danger" onclick="return(confirmDel('{% url 'delete_item_dash_page' 'contact' response.id %}'))"></span> 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <span>No Response found. Check back later.</span>
+{% endif %}
+
+<script type="text/javascript" >
+function confirmDel(link){
+    confirmd = confirm('Are you sure you want to delete?');
+    if(confirmd){
+        window.location.href = link;
+    }
+}
+</script>
+
 {% endblock content %}

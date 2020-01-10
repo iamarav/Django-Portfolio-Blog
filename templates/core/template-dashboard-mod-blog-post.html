@@ -1,0 +1,49 @@
+{% extends 'core/base-dashboard.html' %}
+
+{% block content %}
+
+&nbsp;<br>
+{% if action == 'edit' %}
+    <h2>Editing Post : {{ post_id }}</h2>
+    <hr>
+{% elif action == 'add' %}
+    <h2>Add</h2>
+    <hr>
+{% endif %}
+    
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+        <label for="post_title">Post Title</label>
+            <input type="text" style="padding: 0.5%;" name="title" placeholder="Enter post title"  id="post_title" value="{{ post.title }}" class="form-control col-md-9" >
+        </div>
+        <div class="form-group">
+        <label for="post_content">Post Content</label>
+            <textarea name="content" id="post_content" rows=10 cols=40 placeholder="Enter the description here." class="form-control col-md-9" >{{ post.content }}</textarea>
+        </div>
+        {% if categories %}
+        <div class="form-group">
+            <label for="category">Post Category</label>
+            <select name="category" id="category" class="form-control col-md-6 col-xs-12 col-lg-3" >
+                {{ post.category }}
+            {% for category in categories %}
+                    <option name ="{{ category.category }}">{{ category.category }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <script type="text/javascript">
+            document.getElementById('category').value = "{% if post.category %}{{ post.category }}{% else %}Uncategorized{% endif %}";
+        </script>
+
+        {% endif %}
+        <div class="form-group">
+            {% if action == 'edit' %}
+                <input type="submit" value="Save" class="btn btn-primary" >
+            {% elif action == 'add' %}
+                <input type="submit" value="Add Post" class="btn btn-primary" >
+            {% endif %}
+        </div>
+        
+    </form>
+
+{% endblock content %}

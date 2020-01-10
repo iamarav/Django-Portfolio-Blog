@@ -25,3 +25,10 @@ class FeedbackForm(forms.Form):
 class LoginForm (forms.Form):
   username = forms.CharField(label='Username', max_length=100)
   password = forms.CharField(label='Your Password', max_length=50)
+
+class ModProjectForm (forms.Form):
+  title = forms.CharField(label='Project Title', max_length=200)
+  summary = forms.CharField( label='Project Summary', widget=forms.Textarea )
+  category = forms.CharField( label='Category', max_length=200)
+  image = forms.ImageField( label='Project Image' )
+  link = forms.URLField( label='Project URL' )

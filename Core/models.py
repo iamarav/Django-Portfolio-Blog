@@ -12,6 +12,8 @@ class Feedback(models.Model):
     website = models.URLField(blank=True, null=True)
     city = models.CharField(blank=True, null=True, max_length=20)
     message = models.TextField()
+    date = models.DateField(default= timezone.now)
+    time = models.TimeField(default= timezone.localtime().strftime('%H:%M:%S') )
 
     def __str__(self):
         return str(self.id)+": "+self.name
@@ -25,7 +27,7 @@ class Contact(models.Model):
     message = models.TextField()
     date = models.DateField(default= timezone.now)
     time = models.TimeField(default= timezone.localtime().strftime('%H:%M:%S') )
-    user_ip = models.CharField( max_length=25, default='' )
+    user_ip = models.CharField( max_length=25, default='', null=True, blank=True )
 
     def __str__(self):
         return str(self.name)+" ("+str(self.email)+"), "+str(self.date)+", "+str(self.time)

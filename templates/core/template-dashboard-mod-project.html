@@ -1,0 +1,56 @@
+{% extends 'core/base-dashboard.html' %}
+
+{% block content %}
+
+&nbsp;<br>
+{% if action == 'edit' %}
+    <h2>Editing Project : {{ project_id }}</h2>
+    <hr>
+{% elif action == 'add' %}
+    <h2>Add</h2>
+    <hr>
+{% endif %}
+    
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+        <label for="project_title">Project Title</label>
+            <input type="text" style="padding: 0.5%;" name="title" placeholder="Enter project title"  id="project_title" value="{{ project.title }}" class="form-control col-md-9" >
+        </div>
+        <div class="form-group">
+        <label for="project_content">Project Summary</label>
+            <textarea name="content" id="project_content" rows=10 cols=40 placeholder="Enter the description here." class="form-control col-md-9" >{{ project.summary }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="project_category">Project Category</label>
+                <input type="text" style="padding: 0.5%;" name="category" placeholder="Enter project category"  id="project_category" value="{{ project.category }}" class="form-control col-md-9" >
+        </div>
+
+        <div class="form-group">
+            <label for="project_link">Project Link</label>
+                <input type="url" style="padding: 0.5%;" name="project_link" placeholder="Enter project URL"  id="project_link" value="{{ project.link }}" class="form-control col-md-9" >
+        </div>
+
+        
+        <div class="form-group">
+            {% if project.images %}
+            <img src="{{ media_url }}{{ project.images }}" width="100" title="Existing Image">
+            <br>
+            {% endif %}
+            <label for="project_img">Project Image</label>
+                <input type="file" style="padding: 0.5%;" name="project_img" accept="image/x-png,image/jpeg" id="project_link" class="form-control col-md-9" >
+        </div>
+            
+
+        <div class="form-group">
+            {% if action == 'edit' %}
+                <input type="submit" value="Save" class="btn btn-primary" >
+            {% elif action == 'add' %}
+                <input type="submit" value="Add Project" class="btn btn-primary" >
+            {% endif %}
+        </div>
+        
+    </form>
+
+{% endblock content %}
