@@ -7,11 +7,11 @@
     <h2>Editing Project : {{ project_id }}</h2>
     <hr>
 {% elif action == 'add' %}
-    <h2>Add</h2>
+    <h2>Add a Project</h2>
     <hr>
 {% endif %}
     
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
         <label for="project_title">Project Title</label>

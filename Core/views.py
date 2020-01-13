@@ -204,6 +204,63 @@ def ModBlogPostPage(request, action, id):
         'static_url': static,
         'site_info': site_info,
     }
+    if request.method == 'POST':
+        if action == 'edit':
+            # Editing the current post with form
+            post_title = request.POST.get('title')
+            content = request.POST.get('content')
+            excerpt = request.POST.get('excerpt')
+
+            category = request.POST.get('category')
+
+            category_instance = Categories.objects.get(category = category)
+            if not category_instance:
+                new_category = Categories(category = category)
+                new_category.save()
+                category_instance = Categories.objects.get(category = category)
+            
+            post_img = ''
+            if request.FILES:
+                post_img = request.FILES['featured_image']
+
+            post = Post.objects.get(id = id)
+            if post:
+                post.title = post_title
+                post.content = content
+                post.excerpt = excerpt
+                post.category = category_instance
+                if post_img:
+                    post.featured_image = request.FILES['featured_image']
+                post.save()
+
+        elif action == 'add':
+            # When a new Project is added with dashboard form
+            post_title = request.POST.get('title')
+            content = request.POST.get('content')
+            excerpt = request.POST.get('excerpt')
+            category = request.POST.get('category')
+
+            category_instance = Categories.objects.get(category = category)
+            if not category_instance:
+                new_category = Categories(category = category)
+                new_category.save()
+                category_instance = Categories.objects.get(category = category)
+            
+            post_img = ''
+            if request.FILES:
+                post_img = request.FILES['featured_image']
+
+            form_data = Post(title = post_title, 
+                                content = content, 
+                                category = category_instance, 
+                                featured_image = post_img,
+                                excerpt = excerpt,
+                                author_id = request.user.id)
+            form_data.save()      
+            return HttpResponseRedirect('/dashboard/blog/view/posts/') 
+        else:
+            raise Http404()
+
     passing_dictionary ['categories'] = Categories.objects.all()
     
     if action == 'edit':
@@ -279,12 +336,52 @@ def ModProjectPage(request, action, id):
         'site_info': site_info,
     }
 #    passing_dictionary ['categories'] = Categories.objects.all()
-    
+    if request.method == 'POST':
+        if action == 'edit':
+            # Editing the current project with form
+            project_title = request.POST.get('title')
+            content = request.POST.get('content')
+            category = request.POST.get('category')
+            project_link = request.POST.get('project_link')
+            project_img = ''
+            if request.FILES:
+                project_img = request.FILES['project_img']
+
+            project = Project.objects.get(id = id)
+            if project:
+                project.title = project_title
+                project.summary = content
+                project.category = category
+                project.link = project_link
+                if project_img:
+                    project.images = request.FILES['project_img']
+                project.save()
+
+        elif action == 'add':
+            # When a new Project is added with dashboard form
+            project_title = request.POST.get('title')
+            content = request.POST.get('content')
+            category = request.POST.get('category')
+            project_link = request.POST.get('project_link')
+            
+            project_img = ''
+            if request.FILES:
+                project_img = request.FILES['project_img']
+
+            form_data = Project(title = project_title, 
+                                summary = content, 
+                                category = category, 
+                                link =project_link, 
+                                images = project_img)
+            form_data.save()      
+            return HttpResponseRedirect('/dashboard/projects/view/') 
+        else:
+            raise Http404()
+        
     if action == 'edit':
         passing_dictionary ['action'] = 'edit'
         passing_dictionary ['project_id'] = id
         passing_dictionary ['project'] = Project.objects.filter(id = id)[0]
-
         
         return render( request, 'core/template-dashboard-mod-project.html', passing_dictionary )
     elif action == 'add':

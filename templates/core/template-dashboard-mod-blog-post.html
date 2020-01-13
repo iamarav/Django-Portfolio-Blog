@@ -7,11 +7,11 @@
     <h2>Editing Post : {{ post_id }}</h2>
     <hr>
 {% elif action == 'add' %}
-    <h2>Add</h2>
+    <h2>Add Post</h2>
     <hr>
 {% endif %}
     
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
         <label for="post_title">Post Title</label>
@@ -19,7 +19,11 @@
         </div>
         <div class="form-group">
         <label for="post_content">Post Content</label>
-            <textarea name="content" id="post_content" rows=10 cols=40 placeholder="Enter the description here." class="form-control col-md-9" >{{ post.content }}</textarea>
+            <textarea name="content" id="post_content" rows=8 cols=40 placeholder="Enter the description here." class="form-control col-md-9" >{{ post.content }}</textarea>
+        </div>
+        <div class="form-group">
+        <label for="post_content">Post Excerpt</label>
+            <textarea name="excerpt" id="post_excerpt" rows=2 cols=20 placeholder="Enter the excerpt here." class="form-control col-md-9" >{{ post.excerpt }}</textarea>
         </div>
         {% if categories %}
         <div class="form-group">
@@ -34,6 +38,16 @@
         <script type="text/javascript">
             document.getElementById('category').value = "{% if post.category %}{{ post.category }}{% else %}Uncategorized{% endif %}";
         </script>
+
+                        
+        <div class="form-group">
+            {% if post.featured_image %}
+            <img src="{{ media_url }}{{ post.featured_image }}" width="100" title="Existing Image">
+            <br>
+            {% endif %}
+            <label for="featured_image">Post Image</label>
+                <input type="file" style="padding: 0.5%;" name="featured_image" accept="image/x-png,image/jpeg" id="featured_image" class="form-control col-md-9" >
+        </div>
 
         {% endif %}
         <div class="form-group">

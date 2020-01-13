@@ -31,7 +31,11 @@
           <div class="card my-4">
             <h5 class="card-header">Other Links</h5>
             <div class="card-body">
-              <a href="">Login</a>
+            {% if request.user.id %}
+              <a href="{% url 'logout_page' %}">Logout ({{ request.user.username }})</a>
+            {% else %}
+            <a href="{% url 'login_page' %}">Login</a>
+            {% endif %}
             </div>
           </div>
   
