@@ -141,7 +141,7 @@ BLOG_INFO = {
 
 SITE_INFO = {
     'SITE_NAME': 'My Portfolio',
-    'SITE_DESCRIPTION' : 'This is my awesome site! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque unde nisi, totam quas ipsam.',
+    'SITE_DESCRIPTION' : 'This is my awesome site! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque unde nisi, totam quas ipsam. Change this in settings file',
 }
 
 FOOTER_COPYRIGHT_TEXT = "&copy 2020"
