@@ -1,5 +1,53 @@
 {% extends 'core/base-dashboard.html' %}
 
 {% block content %}
-Hi
+<br>
+<h2>Dashboard</h2>
+<hr>
+<div class="container">
+    <div class="row" >
+        <div class="col-sm-4 col-md-3 col-lg-4">
+            <div class="p-3 mb-2 bg-success text-white">
+                <h4>Blog Posts</h4>
+                <hr>
+                <span>{{ number_blog_posts }} posts and {{ number_blog_categories }} categories.</span>
+                <span class="float-right" ><a href="{% url 'view_blog_posts_dash_page' %}" class="text-white">View &raquo;</a></span>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3 col-lg-4">
+            <div class="p-3 mb-2 bg-warning text-dark">
+                <h4>Blog Comments</h4>
+                <hr>
+                <span>{{ number_blog_comments }} comments</span>
+                <span class="float-right" ><a href="{% url 'view_blog_comments_dash_page' %}" class="text-dark">View &raquo;</a></span>    
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3 col-lg-4">
+            <div class="p-3 mb-2 bg-primary text-white">
+                <h4>Projects</h4>
+                <hr>
+                <span>{{ number_projects }} projects</span>
+                <span class="float-right" ><a href="{% url 'view_projects_dash_page' %}" class="text-white">View &raquo;</a></span>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3 col-lg-4">
+            <div class="p-3 mb-2 bg-info text-white">
+                <h4>Contact Form Responses</h4>
+                <hr>
+                <span class="float-right" ><a href="{% url 'view_contact_response_dash_page' %}" class="text-white">View &raquo;</a></span>
+                <span>{{ number_cf_response }} responses</span>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-3 col-lg-4">
+            <div class="p-3 mb-2 bg-dark text-white">
+                <h4>Feedback</h4>
+                <hr>
+                <span>{{ number_feedback_response }} feedbacks</span>
+                <span class="float-right" ><a href="{% url 'view_feedback_response_dash_page' %}" class="text-white">View &raquo;</a></span>
+            </div>
+        </div>
+    </div>  
+    <hr>
+    <small>Hope you are enjoying using this admin panel made with Django and Bootstrap.</small>
+</div>
 {% endblock content %}

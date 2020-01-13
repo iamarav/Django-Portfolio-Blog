@@ -189,6 +189,13 @@ def DashboardPage(request):
         'static_url': static,
         'site_info': site_info,
     }
+    passing_dictionary ['number_blog_posts'] = Post.objects.count()
+    passing_dictionary ['number_blog_categories'] = Categories.objects.count()
+    passing_dictionary ['number_blog_comments'] = Comment.objects.count()
+    passing_dictionary ['number_projects'] = Project.objects.count()
+    passing_dictionary ['number_cf_response'] = Project.objects.count()
+    passing_dictionary ['number_feedback_response'] = Project.objects.count()
+
     return render( request, 'core/template-dashboard.html', passing_dictionary )
 
 @login_required( login_url= LOGIN_URL)
@@ -213,8 +220,9 @@ def ModBlogPostPage(request, action, id):
 
             category = request.POST.get('category')
 
-            category_instance = Categories.objects.get(category = category)
-            if not category_instance:
+            try:
+                category_instance = Categories.objects.get(category = category)
+            except Categories.DoesNotExist:
                 new_category = Categories(category = category)
                 new_category.save()
                 category_instance = Categories.objects.get(category = category)
@@ -240,8 +248,9 @@ def ModBlogPostPage(request, action, id):
             excerpt = request.POST.get('excerpt')
             category = request.POST.get('category')
 
-            category_instance = Categories.objects.get(category = category)
-            if not category_instance:
+            try:
+                category_instance = Categories.objects.get(category = category)
+            except Categories.DoesNotExist:
                 new_category = Categories(category = category)
                 new_category.save()
                 category_instance = Categories.objects.get(category = category)

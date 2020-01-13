@@ -27,13 +27,14 @@
         </div>
         {% if categories %}
         <div class="form-group">
-            <label for="category">Post Category</label>
-            <select name="category" id="category" class="form-control col-md-6 col-xs-12 col-lg-3" >
+            <label for="post_category">Post Category</label>&nbsp;&nbsp;<span onclick="addCategory()" class="bg-primary text-white" style="padding: 0.5%" ><i class="fa fa-plus"></i> Add Category</span>
+            <select name="category" id="post_category" class="form-control col-md-6 col-xs-12 col-lg-3" >
                 {{ post.category }}
             {% for category in categories %}
                     <option name ="{{ category.category }}">{{ category.category }}</option>
-            {% endfor %}
+            {% endfor %}                   
             </select>
+           
         </div>
         <script type="text/javascript">
             document.getElementById('category').value = "{% if post.category %}{{ post.category }}{% else %}Uncategorized{% endif %}";
@@ -59,5 +60,19 @@
         </div>
         
     </form>
+
+    <script type="text/javascript">
+        function addCategory(){
+            category = prompt ('Enter the category name:')
+            if ( category != '' && category !== null ){     
+                var option = document.createElement("option");
+                option.text = category;
+                option.value = category;
+                var select = document.getElementById("post_category");
+                select.appendChild(option);
+                document.getElementById('post_category').value = category;
+            }
+        }
+    </script>
 
 {% endblock content %}

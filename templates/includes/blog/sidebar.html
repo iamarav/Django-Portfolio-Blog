@@ -1,5 +1,5 @@
-
-        <!-- Search Widget -->
+<!-- 
+        <!-- Search Widget 
         <div class="card my-4">
             <h5 class="card-header">Search</h5>
             <div class="card-body">
@@ -11,15 +11,15 @@
               </div>
             </div>
           </div>
-  
+   -->
           <!-- Categories Widget -->
           <div class="card my-4">
             <h5 class="card-header">All Categories</h5>
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-12">
-                    {% for temp in categories %}
-                      <span style="background-color: #ddd; padding: 3.5%; border-radius: 20px;">{{ temp.category }}</span>
+                    {% for category in categories %}
+                      <span style="background-color: #ddd; padding: 3.5%; border-radius: 20px;">{{ category.category }}</span>
                     {% endfor %}
                 </div>
                 

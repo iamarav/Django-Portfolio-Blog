@@ -2,7 +2,7 @@
 
 {% block content %}
 &nbsp;<br>
-<h2>Blog Posts <span><a href="{% url 'mod_blog_post_dash_page' 'add' 0 %}" class="btn btn-success" >Add New Post</a></span>&nbsp;<span><a href="{% url 'mod_blog_post_dash_page' 'add' 0 %}" class="btn btn-secondary" >Add New Category</a></span></h2>
+<h2>Blog Posts <span><a href="{% url 'mod_blog_post_dash_page' 'add' 0 %}" class="btn btn-success" >Add New Post</a></span></h2>
 <hr>
 {% if successDash %}
     <div class="alert alert-success" role="alert">{{ successDash }}</div>

@@ -14,7 +14,7 @@ blog_info = settings.BLOG_INFO
 # Create your views here.
 def Blog(request):
     blog_post_content = Post.objects.all().order_by('-id')
-    categories = Post.objects.order_by().values('category').distinct()
+    categories = Categories.objects.order_by().values('category').distinct()
     
     return (render( request, 'blog/template-blog-home.html', {'blog_content': blog_post_content, 'categories': categories, 'media_url': media_url, 'static_url': static, 'blog_info': blog_info}))
     # just to show some text on browser
