@@ -18,5 +18,6 @@ urlpatterns = [
     path('user/login/', views.LoginPage, name='login_page'),
     path('user/logout/', views.Logout, name='logout_page'),
     path('user/signup/', views.SignupPage, name='signup_page'),
-    path('user/forgot_password/', views.LoginPage, name='forgot_password_page'),
+    path('user/forgot_password/', views.ForgotPassword, name='forgot_password_page'),
+    path('user/forgot_password/<action>', views.ForgotPassword, name='forgot_password_action'),
 ]

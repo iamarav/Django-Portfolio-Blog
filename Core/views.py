@@ -1,6 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.conf import settings
+from datetime import datetime, timedelta
+from django.utils import timezone
+
 
 from .forms import *
 from .models import *
@@ -15,6 +18,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
 from django.contrib.auth.decorators import login_required
+from django.utils.crypto import get_random_string
+
 
 # Define Global variables here
 media_url = settings.MEDIA_URL
@@ -179,6 +184,78 @@ def SignupPage(request):
         # No POST request received.
         return render( request, 'accounts/template-signup.html', passing_dictionary )
         #to make a signup page
+
+def ForgotPassword(request, action=None):
+    passing_dictionary = {
+        'media_url': media_url,
+        'static_url': static,
+        'site_info': site_info,
+    }
+    if action == 'checkemail':
+        return render( request, 'accounts/template-forgot-password-check-mail.html', passing_dictionary )
+    if action == 'success':
+        return render( request, 'accounts/template-forgot-password-reset-success.html', passing_dictionary )
+    if action == 'new-password':
+        user = None
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            token = request.POST.get('token')
+            password1 = request.POST.get('password')
+            password2 = request.POST.get('password2')
+            if password1 != password2:
+                print (password1)
+                print (password2)
+                # the passwords entered are not same
+                passing_dictionary ['errors'] = 'Passwords are not identical.'
+            else:
+                try:
+                    if '@' in username:
+                        # Email
+                        user = User.objects.get(email = username)
+                    else:
+                        # username
+                        user = User.objects.get(username = username)
+                except User.DoesNotExist:
+                    user = None
+                    passing_dictionary ['errors'] = 'Invalid User'
+                if user is not None:
+                    # User exists.
+                    try:
+                        if '@' in username:
+                            # Email
+                            log = ForgotLog.objects.filter(username = user.email).order_by('-id')[:1][0]
+                        else:
+                            log = ForgotLog.objects.filter(username = user.username).order_by('-id')[:1][0]
+                        # passing_dictionary['errors'] = log.date
+                        log_date = log.date 
+                        now = timezone.now()
+
+                        if now-timedelta(hours=24) <= log_date <= now+timedelta(hours=24):
+                            # the token generation date is in last 24 hours
+                            print ('OK!')
+                            user.set_password(password1)
+                            user.save()
+                            log.delete()
+                            return HttpResponseRedirect ('/user/login')
+                        else:
+                            passing_dictionary ['errors'] = 'Invalid Token!'
+                            print ('Entering a token which is generated before 24 hours!')
+                    except ForgotLog.DoesNotExist:
+                        # No token found
+                        passing_dictionary['errors'] = 'Invalid Combination! Try again.'
+        return render( request, 'accounts/template-forgot-password-create-new.html', passing_dictionary )
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        if username == '' or username is None:
+            return HttpResponseRedirect ( '/user/forgot_password/' )
+        token = get_random_string(length=32)
+        the_data = ForgotLog (username=username, token=token)
+        the_data.save()
+        print ("username: "+str(username)+", token: "+str(token))
+        return HttpResponseRedirect ( '/user/forgot_password/checkemail' )
+    else:
+        return render( request, 'accounts/template-forgot-password.html', passing_dictionary )
 
 # DASHBOARD CONTENT AHEAD
 

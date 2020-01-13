@@ -14,3 +14,8 @@ class FeedbackAdmin(admin.ModelAdmin):
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email','phone_number','subject','date','time')
+
+@admin.register(ForgotLog)
+class ForgotLogAdmin(admin.ModelAdmin):
+    list_display = ('username',)
+    search_fields = ('username',)
