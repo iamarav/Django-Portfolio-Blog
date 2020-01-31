@@ -227,19 +227,26 @@ def ForgotPassword(request, action=None):
                         else:
                             log = ForgotLog.objects.filter(username = user.username).order_by('-id')[:1][0]
                         # passing_dictionary['errors'] = log.date
-                        log_date = log.date 
-                        now = timezone.now()
-
-                        if now-timedelta(hours=24) <= log_date <= now+timedelta(hours=24):
-                            # the token generation date is in last 24 hours
-                            print ('OK!')
-                            user.set_password(password1)
-                            user.save()
-                            log.delete()
-                            return HttpResponseRedirect ('/user/login')
-                        else:
+                        if log.token != request.POST['token']:
                             passing_dictionary ['errors'] = 'Invalid Token!'
-                            print ('Entering a token which is generated before 24 hours!')
+                        else:
+                            log_date = log.date 
+                            now = timezone.now()
+
+                            if now-timedelta(hours=24) <= log_date <= now+timedelta(hours=24):
+                                # the token generation date is in last 24 hours
+                                print ('OK!')
+                                user.set_password(password1)
+                                user.save()
+                                log.delete()
+                                return HttpResponseRedirect ('/user/login')
+                            else:
+                                passing_dictionary ['errors'] = 'Invalid Token!'
+                                print ('Entering a token which is generated before 24 hours!')
+                    except ForgotLog.DoesNotExist:
+                        # No token found
+                        passing_dictionary['errors'] = 'Invalid Combination! Try again.'
+        return render( request, 'accounts/template-forgot-password-create-new.html', passing_dictionary )
                     except ForgotLog.DoesNotExist:
                         # No token found
                         passing_dictionary['errors'] = 'Invalid Combination! Try again.'
